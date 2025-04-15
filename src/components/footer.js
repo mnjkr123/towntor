@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import logoLight from "../assect/images/logo-light.png"
+import logoLight from "../asset/images/logo-light.png"
 
 
-import {FiShoppingCart, FiDribbble, FiLinkedin, FiFacebook, FiInstagram, FiTwitter, FiMail, FiMapPin, FiPhone} from "../assect/icons/vander"
+import {FiShoppingCart, FiDribbble, FiLinkedin, FiFacebook, FiInstagram, FiTwitter, FiMail, FiMapPin, FiPhone} from "../asset/icons/vander"
 
 export default function Footer(){
     return(

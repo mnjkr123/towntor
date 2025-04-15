@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import aboutImg from "../../assect/images/about.jpg"
-import dots from "../../assect/images/svg/dots.svg"
-import single1 from '../../assect/images/property/single/2.jpg'
-import single2 from '../../assect/images/property/single/2.jpg'
-import single3 from '../../assect/images/property/single/3.jpg'
-import single4 from '../../assect/images/property/single/4.jpg'
-import map from "../../assect/images/map.png"
+import aboutImg from "../../asset/images/about.jpg"
+import dots from "../../asset/images/svg/dots.svg"
+import single1 from '../../asset/images/property/single/2.jpg'
+import single2 from '../../asset/images/property/single/2.jpg'
+import single3 from '../../asset/images/property/single/3.jpg'
+import single4 from '../../asset/images/property/single/4.jpg'
+import map from "../../asset/images/map.png"
 
 
 import Navbar from "../../components/navbar";

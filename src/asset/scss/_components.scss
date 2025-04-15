@@ -558,6 +558,7 @@ $value in $colors {
 /*********************************/
 /*         Form            */
 /*===============================*/
+
 .form-control {
     border: 1px solid $gray-200;
     font-size: 16px;
@@ -575,6 +576,37 @@ $value in $colors {
         background-color: $gray-200;
     }
 }
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.filter-border{
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.filter-input-box {
+    border-radius: 8px;
+}
+.form-container{
+    background-color: $white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    .registration-form {
+        width: 100% !important;
+    }
+}
+
+.filter-search-form label {
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
 
 
 .form-check-input {

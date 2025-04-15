@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { propertyData } from "../data/data";
 
-import {FiHome, FiHeart, FiCamera} from "../assect/icons/vander"
+import {FiHome, FiHeart, FiCamera} from "../asset/icons/vander"
 import TinySlider from "tiny-slider-react";
 import '../../node_modules/tiny-slider/dist/tiny-slider.css';
 

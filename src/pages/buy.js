@@ -1,6 +1,6 @@
 import React from "react";
 
-import bg2 from '../assect/images/bg/02.jpg'
+import bg2 from '../asset/images/bg/02.jpg'
 
 import Navbar from "../components/navbar";
 import GetInTuch from "../components/getInTuch";

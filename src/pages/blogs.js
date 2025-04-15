@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Navbar from "../components/navbar";
-import bg3 from "../assect/images/bg/03.jpg"
+import bg3 from "../asset/images/bg/03.jpg"
 
 import { blogData } from "../data/data";
 import Footer from "../components/footer";

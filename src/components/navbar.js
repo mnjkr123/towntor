@@ -1,27 +1,30 @@
 
-import React,{useState,useEffect} from "react";
-import { Link } from "react-router-dom";
-import logoDark from '../assect/images/logo-dark.png'
-import logoLight from '../assect/images/logo-light.png'
+import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import logoDark from '../asset/images/logo-dark.png';
+import logoLight from '../asset/images/logo-light.png';
+import { AuthContext } from '../pages/auth/auth-signup';
 
-import {FiSearch,FiUser} from '../assect/icons/vander'
+import { FiSearch, FiUser } from '../asset/icons/vander';
 
-export default function Navbar({navClass,logolight,menuClass}){
+export default function Navbar({ navClass, logolight, menuClass }) {
     const [scroll, setScroll] = useState(false);
     const [isMenu, setisMenu] = useState(false);
+    const { user } = useContext(AuthContext);
     const [modal, setModal] = useState(false)
 
     useEffect(() => {
         activateMenu()
         window.addEventListener("scroll", () => {
-          setScroll(window.scrollY > 50);
+            setScroll(window.scrollY > 50);
         });
-        const closeDropdown =()=>{
-            setModal(false)
-        }
-        document.addEventListener("mousedown", closeDropdown);
+        const closeDropdown = () => {
+            setModal(false);
+        };
+        document.addEventListener('mousedown', closeDropdown);
         window.scrollTo(0, 0);
-      }, []);
+    }, []);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
       var mybutton = document.getElementById("back-to-top");
         window.onscroll = function () {
@@ -87,7 +90,7 @@ export default function Navbar({navClass,logolight,menuClass}){
             if (menuItems) {
 
                 var matchingMenuItem = null;
-                for (var idx = 0; idx < menuItems.length; idx++) {
+                for (let idx = 0; idx < menuItems.length; idx++) {
                     if (menuItems[idx].href === window.location.href) {
                         matchingMenuItem = menuItems[idx];
                     }
@@ -95,19 +98,19 @@ export default function Navbar({navClass,logolight,menuClass}){
 
                 if (matchingMenuItem) {
                     matchingMenuItem.classList.add('active');
-                
-                
+
+
                     var immediateParent = getClosest(matchingMenuItem, 'li');
-            
+
                     if (immediateParent) {
                         immediateParent.classList.add('active');
                     }
-                    
+
                     var parent = getClosest(immediateParent, '.child-menu-item');
-                    if(parent){
+                    if (parent) {
                         parent.classList.add('active');
                     }
-
+                    
                     var parent = getClosest(parent || immediateParent , '.parent-menu-item');
                 
                     if (parent) {
@@ -132,18 +135,18 @@ export default function Navbar({navClass,logolight,menuClass}){
             }
         }
     return(
-        <>
-         <header id="topnav" className={`${scroll ? "nav-sticky" :""} ${navClass}`}>
+        <React.Fragment>
+         <header id="topnav" className={`${scroll ? "nav-sticky" : ""} ${navClass}`}>
             <div className="container">
                 {logolight === true ? 
                     <Link className="logo" to="/">
                         <span className="logo-light-mode">
-                            <img src={logoDark} className="l-dark" alt=""/>
-                            <img src={logoLight} className="l-light" alt=""/>
+                            <img src={logoDark} className="l-dark" alt="" />
+                            <img src={logoLight} className="l-light" alt="" />
                         </span>
-                        <img src={logoLight} className="logo-dark-mode" alt=""/>
+                        <img src={logoLight} className="logo-dark-mode" alt="" />
                     </Link> :
-                    <Link className="logo" to="/">
+                        <Link className="logo" to="/">
                         <img src={logoDark} className="logo-light-mode" alt=""/>
                         <img src={logoLight} className="logo-dark-mode" alt=""/>
                     </Link>
@@ -166,7 +169,7 @@ export default function Navbar({navClass,logolight,menuClass}){
                     <li className="list-inline-item ps-1 mb-0">
                         <div className="dropdown">
                             <button type="button" className="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary" onClick={()=>setModal(!modal)}>
-                                <FiSearch className="icons"/>
+                                <FiSearch className="icons" />
                             </button>
                             <div className={`${modal === true ? 'show' : ''} dropdown-menu dd-menu dropdown-menu-start bg-white rounded-3 border-0 mt-3 p-0 right-0`} style={{width: "240px", right:"0"}}>
                                 <div className="search-bar">
@@ -180,8 +183,25 @@ export default function Navbar({navClass,logolight,menuClass}){
                             </div>
                         </div>
                     </li>
-                    <li className="list-inline-item ps-1 mb-0">
-                        <Link to="/auth-login" className="btn btn-sm btn-icon btn-pills btn-primary"><FiUser className="icons"/></Link>
+                     <li className="list-inline-item ps-1 mb-0">
+                        {user ? (
+                            <div className="dropdown">
+                                <button
+                                    type="button"
+                                    className="dropdown-toggle btn btn-sm btn-icon btn-pills btn-primary"
+                                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                                >
+                                    {user.firstName}
+                                </button>
+                                <div className={`${isProfileOpen ? 'show' : ''} dropdown-menu dd-menu dropdown-menu-end bg-white rounded-3 border-0 mt-3 py-3`} style={{ right: 0 }}>
+                                    <Link to="/profile" className="dropdown-item text-dark"><FiUser className="align-middle me-1"/> Profile</Link>
+                                    <Link to="/logout" className="dropdown-item text-dark"><i className="uil uil-sign-out-alt align-middle me-1"></i> Logout</Link>
+                                </div>
+                            </div>
+                        ) : (
+                            <Link to="/auth-login" className="btn btn-sm btn-icon btn-pills btn-primary"><FiUser className="icons" /></Link>
+                        )}
+
                     </li>
                 </ul>
         
@@ -259,6 +279,9 @@ export default function Navbar({navClass,logolight,menuClass}){
                                         <li><Link to="/comingsoon" className="sub-menu-item">Comingsoon</Link></li>
                                         <li><Link to="/maintenance" className="sub-menu-item">Maintenance</Link></li>
                                         <li><Link to="/error" className="sub-menu-item">404! Error</Link></li>
+                                <li className="has-submenu parent-menu-item">
+                                    <Link to="/financial-selection" className="sub-menu-item">Financial Consideration</Link>
+                                </li>
                                     </ul>  
                                 </li>
                             </ul>
@@ -269,6 +292,6 @@ export default function Navbar({navClass,logolight,menuClass}){
                 </div>
             </div>
         </header>
-        </>
-    )
+        </React.Fragment>
+    );
 }

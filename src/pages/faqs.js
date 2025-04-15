@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link as Link2 } from 'react-scroll';
 
 import Navbar from "../components/navbar";
-import bg3 from "../assect/images/bg/03.jpg"
+import bg3 from "../asset/images/bg/03.jpg"
 import Footer from "../components/footer";
 
 

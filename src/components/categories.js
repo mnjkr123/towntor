@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import category1 from '../assect/images/property/residential.jpg'
-import category2 from '../assect/images/property/land.jpg'
-import category3 from '../assect/images/property/commercial.jpg'
-import category4 from '../assect/images/property/industrial.jpg'
-import category5 from '../assect/images/property/investment.jpg'
+import category1 from '../asset/images/property/residential.jpg'
+import category2 from '../asset/images/property/land.jpg'
+import category3 from '../asset/images/property/commercial.jpg'
+import category4 from '../asset/images/property/industrial.jpg'
+import category5 from '../asset/images/property/investment.jpg'
 
 export default function Categories(){
 

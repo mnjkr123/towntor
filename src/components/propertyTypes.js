@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import property1 from "../assect/images/icons/house.png"
-import property2 from "../assect/images/icons/bungalow.png"
-import property3 from "../assect/images/icons/buildings.png"
-import property4 from "../assect/images/icons/commercial.png"
-import property5 from "../assect/images/icons/industries.png"
+import property1 from "../asset/images/icons/house.png"
+import property2 from "../asset/images/icons/bungalow.png"
+import property3 from "../asset/images/icons/buildings.png"
+import property4 from "../asset/images/icons/commercial.png"
+import property5 from "../asset/images/icons/industries.png"
 
 export default function PropertyType(){
 

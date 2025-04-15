@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import bg3 from "../assect/images/bg/03.jpg"
+import bg3 from "../asset/images/bg/03.jpg"
 
 import Navbar from "../components/navbar";
 import GetInTuch from "../components/getInTuch";
 import AboutUs from "../components/about";
 
-import {FiHexagon} from "../assect/icons/vander"
+import {FiHexagon} from "../asset/icons/vander"
 import Footer from "../components/footer";
 
 export default function Pricing(){

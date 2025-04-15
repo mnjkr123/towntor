@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import bg3 from "../../assect/images/bg/03.jpg"
+import bg3 from "../../asset/images/bg/03.jpg"
 
 import Navbar from "../../components/navbar";
 
 import { propertyData } from "../../data/data";
-import {FiHome, FiHeart, FiCamera} from "../../assect/icons/vander"
+import {FiHome, FiHeart, FiCamera} from "../../asset/icons/vander"
 import Footer from "../../components/footer";
 
 export default function GridSidebar(){

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import heroImg from "../../assect/images/hero.jpg"
-import image1 from '../../assect/images/1.jpg'
-import logoIcon from '../../assect/images/logo-icon.png'
-import background from '../../assect/images/bg/03.jpg'
+import heroImg from "../../asset/images/hero.jpg"
+import image1 from '../../asset/images/1.jpg'
+import logoIcon from '../../asset/images/logo-icon.png'
+import background from '../../asset/images/bg/03.jpg'
 
 import Navbar from "../../components/navbar";
 import Categories from "../../components/categories"
@@ -19,7 +19,7 @@ import Footer from "../../components/footer";
 import { TypeAnimation } from 'react-type-animation';
 import Select from 'react-select'
 
-import {FiDollarSign, FiHome,FiSearch} from "../../assect/icons/vander"
+import {FiDollarSign, FiHome,FiSearch} from "../../asset/icons/vander"
 
 export default function Index(){
 
@@ -83,21 +83,21 @@ export default function Index(){
                         <div className="features-absolute">
                             <ul className="nav nav-pills bg-white shadow border-bottom p-3 flex-row d-md-inline-flex nav-justified mb-0 rounded-top-3 position-relative overflow-hidden" id="pills-tab" role="tablist">
                                 <li className="nav-item m-1">
-                                    <Link className={`${activeIndex === 0 ? 'active' : '' } nav-link py-2 px-4  rounded-3 fw-medium`} to="#" onClick={()=>setActiveIndex(0)} >
+                                    <button className={`${activeIndex === 0 ? 'active' : '' } nav-link py-2 px-4  rounded-3 fw-medium`} onClick={()=>setActiveIndex(0)} >
                                         Buy
-                                    </Link>
+                                    </button>
                                 </li>
                                 
                                 <li className="nav-item m-1">
-                                    <Link className={`${activeIndex === 1 ? 'active' : '' } nav-link py-2 px-4  rounded-3 fw-medium`} to="#" onClick={()=>setActiveIndex(1)}>
+                                    <button className={`${activeIndex === 1 ? 'active' : '' } nav-link py-2 px-4  rounded-3 fw-medium`} onClick={()=>setActiveIndex(1)}>
                                         Sell
-                                    </Link>
+                                    </button>
                                 </li>
 
                                 <li className="nav-item m-1">
-                                    <Link className={`${activeIndex === 2 ? 'active' : '' } nav-link py-2 px-4  rounded-3 fw-medium`} to="#" onClick={()=>setActiveIndex(2)}>
+                                    <button className={`${activeIndex === 2 ? 'active' : '' } nav-link py-2 px-4  rounded-3 fw-medium`} onClick={()=>setActiveIndex(2)}>
                                         Rent
-                                    </Link>
+                                    </button>
                                 </li>
                             </ul>
                             

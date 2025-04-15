@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import hero from "../../assect/images/hero.jpg"
-import image1 from "../../assect/images/1.jpg"
-import dots from "../../assect/images/svg/dots.svg"
-import bg4 from "../../assect/images/bg/04.jpg"
-import bg5 from "../../assect/images/bg/05.jpg"
-import bg3 from "../../assect/images/bg/03.jpg"
+import hero from "../../asset/images/hero.jpg"
+import image1 from "../../asset/images/1.jpg"
+import dots from "../../asset/images/svg/dots.svg"
+import bg4 from "../../asset/images/bg/04.jpg"
+import bg5 from "../../asset/images/bg/05.jpg"
+import bg3 from "../../asset/images/bg/03.jpg"
 
 import Navbar from "../../components/navbar";
 import AboutUs from "../../components/about";

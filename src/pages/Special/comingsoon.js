@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import bg3 from "../../assect/images/bg/03.jpg"
-import logo from "../../assect/images/logo-icon-white.png"
+import bg3 from "../../asset/images/bg/03.jpg"
+import logo from "../../asset/images/logo-icon-white.png"
 
 export default function Comingsoon(){
     const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });

@@ -1,8 +1,8 @@
-import { Route, Routes ,useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Index from "./pages/index";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import './assect/scss/style.scss'
-import './assect/css/materialdesignicons.min.css'
+import './asset/scss/style.scss'
+import './asset/css/materialdesignicons.min.css';
 import Footer from "./components/footer";
 import ScrollTop from "./components/scrollTop";
 import IndexTwo from "./pages/index/index-two"
@@ -35,6 +35,10 @@ import Signup from "./pages/auth/auth-signup";
 import Comingsoon from "./pages/Special/comingsoon";
 import Maintenance from "./pages/Special/maintenance";
 import Error from "./pages/Special/error";
+import FinancialSelection from "./pages/Special/financialSelection";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Logout from "./components/Logout";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -55,26 +59,22 @@ function App() {
        <Route path="/grid-sidebar" element={<GridSidebar/>}/>
        <Route path="/list" element={<List/>}/>
        <Route path="/list-sidebar" element={<ListSidebar/>}/>
+       <Route path="/comingsoon" element={<Comingsoon/>}/>
+       <Route path="/maintenance" element={<Maintenance/>}/>
        <Route path="/property-detail" element={<PropertyDetails/>}/>
        <Route path="/property-detail/:id" element={<PropertyDetails/>}/>
        <Route path="/property-detail-two" element={<PropertyDetailsTwo/>}/>
-       <Route path="/aboutus" element={<AboutUs/>}/>
-       <Route path="/features" element={<Features/>}/>
-       <Route path="/pricing" element={<Pricing/>}/>
-       <Route path="/faqs" element={<Faqs/>}/>
-       <Route path="/terms" element={<Terms/>}/>
-       <Route path="/privacy" element={<Privacy/>}/>
-       <Route path="/blogs" element={<Blogs/>}/>
-       <Route path="/blog-sidebar" element={<BlogSidebar/>}/>
-       <Route path="/blog-detail" element={<BlogDetail/>}/>
-       <Route path="/blog-detail/:id" element={<BlogDetail/>}/>
-       <Route path="/contactus" element={<ContactUs/>}/>
+       <Route path="/aboutus" element={
+        <ProtectedRoute><AboutUs/></ProtectedRoute>
+       }/>
        <Route path="/auth-login" element={<AuthLogin/>}/>
        <Route path="/auth-signup" element={<Signup/>}/>
        <Route path="/auth-reset-password" element={<ResetPassword/>}/>
-       <Route path="/comingsoon" element={<Comingsoon/>}/>
-       <Route path="/maintenance" element={<Maintenance/>}/>
        <Route path="/error" element={<Error/>}/>
+       <Route path="/logout" element={<Logout/>}/>
+       <Route path="/profile" element={
+        <ProtectedRoute><Profile/></ProtectedRoute>
+       }/>
        <Route path="*" element={<Error/>}/>
 
     </Routes>

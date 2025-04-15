@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import bg3 from "../assect/images/bg/03.jpg"
+import bg3 from "../asset/images/bg/03.jpg"
 import Navbar from "../components/navbar";
 import AboutUs from "../components/about";
 import Footer from "../components/footer";

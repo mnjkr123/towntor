@@ -1,14 +1,14 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-import bg2 from "../assect/images/bg/02.jpg"
-import client1 from "../assect/images/client/01.jpg"
-import client2 from "../assect/images/client/02.jpg"
-import client3 from "../assect/images/client/03.jpg"
-import client4 from "../assect/images/client/04.jpg"
-import image1 from "../assect/images/property/1.jpg"
-import image2 from "../assect/images/property/2.jpg"
-import image3 from "../assect/images/property/3.jpg"
+import bg2 from "../asset/images/bg/02.jpg"
+import client1 from "../asset/images/client/01.jpg"
+import client2 from "../asset/images/client/02.jpg"
+import client3 from "../asset/images/client/03.jpg"
+import client4 from "../asset/images/client/04.jpg"
+import image1 from "../asset/images/property/1.jpg"
+import image2 from "../asset/images/property/2.jpg"
+import image3 from "../asset/images/property/3.jpg"
 
 import Navbar from "../components/navbar";
 import { blogData } from "../data/data";

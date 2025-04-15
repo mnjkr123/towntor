@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {FiMail} from '../assect/icons/vander'
+import {FiMail} from '../asset/icons/vander'
 
 export default function GetInTuch(){
     return(

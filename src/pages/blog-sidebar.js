@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import bg3 from "../assect/images/bg/03.jpg"
-import image1 from "../assect/images/property/1.jpg"
-import image2 from "../assect/images/property/2.jpg"
-import image3 from "../assect/images/property/3.jpg"
+import bg3 from "../asset/images/bg/03.jpg"
+import image1 from "../asset/images/property/1.jpg"
+import image2 from "../asset/images/property/2.jpg"
+import image3 from "../asset/images/property/3.jpg"
 
 import Navbar from "../components/navbar";
 import { blogData } from "../data/data";

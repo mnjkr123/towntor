@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import {FiHexagon, FiHome, FiBriefcase, FiKey} from '../assect/icons/vander'
+import {FiHexagon, FiHome, FiBriefcase, FiKey} from '../asset/icons/vander'
 
 export default function AboutUs(){
     const aboutData = [

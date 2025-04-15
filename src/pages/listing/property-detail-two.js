@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import bg3 from "../../assect/images/bg/03.jpg"
-import image1 from "../../assect/images/property/single/1.jpg"
-import image2 from "../../assect/images/property/single/2.jpg"
-import image3 from "../../assect/images/property/single/3.jpg"
-import image4 from "../../assect/images/property/single/4.jpg"
-import image5 from "../../assect/images/property/single/5.jpg"
+import bg3 from "../../asset/images/bg/03.jpg"
+import image1 from "../../asset/images/property/single/1.jpg"
+import image2 from "../../asset/images/property/single/2.jpg"
+import image3 from "../../asset/images/property/single/3.jpg"
+import image4 from "../../asset/images/property/single/4.jpg"
+import image5 from "../../asset/images/property/single/5.jpg"
 
 import Navbar from "../../components/navbar";
 import ProprtySlider from "../../components/propertySlider";

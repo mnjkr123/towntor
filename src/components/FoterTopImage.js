@@ -1,6 +1,6 @@
 import React from "react";
 
-import backgroundImg from '../assect/images/building.png'
+import backgroundImg from '../asset/images/building.png'
 
 export default function FooterTopImage(){
     return(

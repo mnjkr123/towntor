@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import Navbar from "../components/navbar";
-import bg3 from "../assect/images/bg/03.jpg"
+import bg3 from "../asset/images/bg/03.jpg"
 
-import {FiArrowRight} from '../assect/icons/vander'
+import {FiArrowRight} from '../asset/icons/vander'
 import Footer from "../components/footer";
 
 export default function Terms(){

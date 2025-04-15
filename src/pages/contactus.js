@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import Navbar from "../components/navbar";
-import bg4 from "../assect/images/bg/04.jpg"
+import bg4 from "../asset/images/bg/04.jpg"
 
-import {FiPhone, FiHexagon, FiMapPin,FiMail} from "../assect/icons/vander"
+import {FiPhone, FiHexagon, FiMapPin,FiMail} from "../asset/icons/vander"
 import Footer from "../components/footer";
 export default function ContactUs(){
     return(

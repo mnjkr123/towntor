@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import bg3 from "../../assect/images/bg/03.jpg"
-import logo from "../../assect/images/logo-icon-80.png"
+import bg3 from "../../asset/images/bg/03.jpg"
+import logo from "../../asset/images/logo-icon-80.png"
 
 export default function  ResetPassword(){
     return(

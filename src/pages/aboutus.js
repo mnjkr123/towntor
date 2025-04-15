@@ -1,11 +1,11 @@
 import React,{useState} from "react";
 import { Link } from "react-router-dom";
 
-import bg3 from "../assect/images/bg/03.jpg"
-import heroImg from "../assect/images/hero.jpg"
-import dots from "../assect/images/svg/dots.svg"
-import image1 from "../assect/images/1.jpg"
-import map from "../assect/images/map.png"
+import bg3 from "../asset/images/bg/03.jpg"
+import heroImg from "../asset/images/hero.jpg"
+import dots from "../asset/images/svg/dots.svg"
+import image1 from "../asset/images/1.jpg"
+import map from "../asset/images/map.png"
 
 import Navbar from "../components/navbar";
 import About from "../components/about"

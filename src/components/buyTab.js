@@ -1,13 +1,13 @@
 import React,{useState} from "react";
 import { Link } from "react-router-dom";
-import image1 from '../assect/images/svg/Agent_Monochromatic.svg'
-import image2 from "../assect/images/svg/presentation_Flatline.svg"
-import image3 from "../assect/images/svg/session_Flatline.svg"
-import image4 from "../assect/images/svg/Startup_Flatline.svg"
-import image5 from '../assect/images/svg/team_Flatline.svg'
-import image6 from "../assect/images/svg/Team_meeting_Two.svg"
+import image1 from '../asset/images/svg/Agent_Monochromatic.svg'
+import image2 from "../asset/images/svg/presentation_Flatline.svg";
+import image3 from "../asset/images/svg/session_Flatline.svg";
+import image4 from "../asset/images/svg/Startup_Flatline.svg";
+import image5 from '../asset/images/svg/team_Flatline.svg'
+import image6 from "../asset/images/svg/Team_meeting_Two.svg"
 
-import {FiArrowRight} from "../assect/icons/vander"
+import {FiArrowRight} from "../asset/icons/vander"
 
 export default function BuyTab(){
     const [activeIndex, setActiveIndex] = useState(0)

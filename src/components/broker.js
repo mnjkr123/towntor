@@ -3,7 +3,7 @@ import React from "react";
 import {brokerData} from '../data/data'
 import { Link } from "react-router-dom";
 
-import {FiFacebook, FiInstagram, FiTwitter} from '../assect/icons/vander'
+import {FiFacebook, FiInstagram, FiTwitter} from '../asset/icons/vander'
 
 export default function Broker(){
     return(

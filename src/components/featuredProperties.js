@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { propertyData } from "../data/data";
-import {FiHome, FiHeart, FiCamera} from '../assect/icons/vander'
+import {FiHome, FiHeart, FiCamera} from '../asset/icons/vander'
 
 export default function FuaturedProperties(){
     return(

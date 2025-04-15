@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import { Link } from "react-router-dom";
 
-import {FiArrowUp} from '../assect/icons/vander'
+import {FiArrowUp} from '../asset/icons/vander'
 
 export default function ScrollTop(){
     const [visible, setVisible] = useState(false) 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assect/images/logo-icon-64.png"
-import errorImg from '../../assect/images/error.png'
+import logo from "../../asset/images/logo-icon-64.png"
+import errorImg from '../../asset/images/error.png'
 
 export default function Error(){
     return(

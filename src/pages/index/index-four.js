@@ -1,6 +1,6 @@
 import React from "react";
 
-import bg5 from "../../assect/images/bg/05.jpg"
+import bg5 from "../../asset/images/bg/05.jpg"
 
 import Navbar from "../../components/navbar";
 import AboutUs from "../../components/about";

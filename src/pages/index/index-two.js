@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import backgroundImage from "../../assect/images/bg/01.jpg"
-import heroImg from "../../assect/images/hero.jpg"
+import backgroundImage from "../../asset/images/bg/01.jpg"
+import heroImg from "../../asset/images/hero.jpg"
 
 import Navbar from "../../components/navbar";
 import PropertyType from "../../components/propertyTypes";
@@ -18,7 +18,7 @@ import CountUp from 'react-countup';
 import ModalVideo from 'react-modal-video';
 import "../../../node_modules/react-modal-video/css/modal-video.css"
 
-import {FiDollarSign, FiHome,FiSearch} from "../../assect/icons/vander"
+import {FiDollarSign, FiHome,FiSearch} from "../../asset/icons/vander"
 import Footer from "../../components/footer";
 
 export default function IndexTwo(){
