@@ -107,16 +107,7 @@ app.post('/api/submitForm', async (req, res) => {
   console.log('Request to /api/submitForm');
   const formData = req.body;
   console.log('1. Received form data:', formData);
-
   try {
-    const { userEmail } = formData;
-    
-    const existingFormData = await FormData.findOne({ userEmail });
-
-    if (existingFormData) {
-        console.log("Form already submitted by this user");
-        return res.status(409).json({ message: 'Form already submitted' });
-    }
 
 
     const submitData = { ...formData };
