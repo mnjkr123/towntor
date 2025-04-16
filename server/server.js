@@ -20,7 +20,7 @@ const formDataSchema = new mongoose.Schema({
   categories: String,
   firstName: String,
   lastName: String,
-  email: { type: String, unique: true },
+  email: String,
   userEmail: String,
   password: String,
   minPrice: String,
