@@ -279,9 +279,9 @@ export default function Navbar({ navClass, logolight, menuClass }) {
                                         <li><Link to="/comingsoon" className="sub-menu-item">Comingsoon</Link></li>
                                         <li><Link to="/maintenance" className="sub-menu-item">Maintenance</Link></li>
                                         <li><Link to="/error" className="sub-menu-item">404! Error</Link></li>
-                                <li className="has-submenu parent-menu-item">
-                                    <Link to="/financial-selection" className="sub-menu-item">Financial Consideration</Link>
-                                </li>
+                                        <li className="has-submenu parent-menu-item">
+                                            <Link to="/FinancialConsideration" className="sub-menu-item">Financial Consideration</Link>
+                                        </li>
                                     </ul>  
                                 </li>
                             </ul>

@@ -40,6 +40,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Logout from "./components/Logout";
 import Profile from "./pages/Profile";
 
+// Adding the FinancialConsideration page
+import FinancialConsideration from "./pages/Special/FinancialConsideration";
+
 
 function App() {
   const location = useLocation()
@@ -76,7 +79,7 @@ function App() {
         <ProtectedRoute><Profile/></ProtectedRoute>
        }/>
        <Route path="*" element={<Error/>}/>
-
+       <Route path='/FinancialConsideration' element={<FinancialConsideration/>}/>
     </Routes>
     <ScrollTop/>
     </>
