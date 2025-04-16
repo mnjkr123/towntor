@@ -79,7 +79,7 @@ function App() {
         <ProtectedRoute><Profile/></ProtectedRoute>
        }/>
        <Route path="*" element={<Error/>}/>
-       <Route path='/FinancialConsideration' element={<FinancialConsideration/>}/>
+       <Route path='/FinancialConsideration/' element={<FinancialConsideration/>}/>
     </Routes>
     <ScrollTop/>
     </>

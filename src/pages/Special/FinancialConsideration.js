@@ -7,10 +7,12 @@ const FinancialConsideration = () => {
   const [expandedSections, setExpandedSections] = useState({
     "Budget and Affordability": true
   });
-  const [selectedField, setSelectedField] = useState("Maximum budget");
+  const [selectedField, setSelectedField] = useState("Maximum budget");  
   const [formData, setFormData] = useState({});
-  const [report, setReport] = useState("");
+  const [reports, setReports] = useState({});
   const [sectionCompletion, setSectionCompletion] = useState({});
+  const [finalQualification, setFinalQualification] = useState("Not Qualified"); // Initial state
+  const [finalReport, setFinalReport] = useState("");
 
   // Descriptions for subsections that appear when clicked
   const subSectionDescriptions = {
@@ -193,78 +195,124 @@ const FinancialConsideration = () => {
     setSectionCompletion(newCompletionStatus);
   }, [formData]);
 
+  // Determine final qualification based on reports and form data
+  const determineFinalQualification = async () => 
+    {
+    // Simulate AI call for final qualification
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    let finalReport = `# Final Qualifying Report\n\n`;
+    finalReport += `This report provides a final qualification based on the data you've entered and the individual section reports.\n\n`;
+    finalReport += `\n\n**Mortgage Check Context:** Real Estate Home Purchase`;
+    finalReport += `\n\n**Analysis of Key Factors:**\n`;
+
+    let qualified = true;
+    let reviewNeeded = false;
+
+    // Example logic - replace with actual qualification rules
+    if (formData["Maximum budget"] < 100000 || formData["Credit score"] < 600) {
+      qualified = false;
+      reviewNeeded = true;
+      finalReport += `- **Maximum Budget and/or Credit Score:** Below minimum threshold. Please review.\n`;
+    } else {
+      finalReport += `- **Maximum Budget and Credit Score:** Meet minimum requirements.\n`;
+    }
+
+    // Set final qualification status
+    let status = "Needs Review";
+    if (qualified && !reviewNeeded) {
+      status = "Qualified";
+      finalReport += `\n\n**Final Qualification:** Qualified\n`;
+    } else if (!qualified) {
+      status = "Not Qualified";
+      finalReport += `\n\n**Final Qualification:** Not Qualified\n`;
+    } else {
+      finalReport += `\n\n**Final Qualification:** Needs Review\n`;
+    }
+
+    finalReport += `\n\nPlease note that this is a simulated report and the analysis may not reflect actual financial advice. Consult with a financial expert for personalized recommendations.`;
+    finalReport += `\n\nFor further assistance, please contact our support team or schedule a consultation with one of our financial advisors.`;
+
+    return { status, report: finalReport };
+  };
+
+  // Simulates calling an AI model and returning a report
+  const getAIReport = async (sectionName, data) => {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Generate a generic report for simulation
+    let report = `# ${sectionName} Report\n\n`;
+    report += `This report provides an analysis based on the provided data for the "${sectionName}" section.`;
+    report += `\n\n**Mortgage Check Context:** Real Estate Home Purchase`;
+    report += `\n\n**Key Inputs:**\n`;
+
+    for (const key in data) {
+      report += `- ${key}: ${data[key]}\n`;
+    }
+
+    report += `\n\n**Analysis:**\n`;
+    report += `Based on the information provided, we have conducted a detailed analysis to help you understand your financial position. This analysis considers various factors such as your budget, income, expenses, loan details, and other relevant financial data. The insights generated will assist you in making informed decisions and planning effectively for your financial goals.`;
+    report += `\n\nFurther details and specific recommendations tailored to your situation will be provided in the subsequent sections of this report.`;
+    report += `\n\nPlease note that this is a simulated report and the analysis may not reflect actual financial advice. Consult with a financial expert for personalized recommendations.`;
+    report += `\n\nFor further assistance, please contact our support team or schedule a consultation with one of our financial advisors.`;
+
+    return report;
+  };
+
+  // Generate report for a specific section
+  const generateSectionReport = async (sectionName) => {
+    const report = await getAIReport(sectionName, formData);
+    setReports(prev => ({ ...prev, [sectionName]: report }));
+
+  }
+  const generateFinalReport = async () => {
+    const { status, report } = await determineFinalQualification();
+    setFinalQualification(status);
+    setFinalReport(report);
+  };
+
   // Navigate to next field in the section
   const goToNextField = () => {
     const currentSection = sections.find(section => 
       section.items.some(item => item.name === selectedField)
     );
     
-    if (currentSection) {
-      const currentIndex = currentSection.items.findIndex(item => item.name === selectedField);
-      
-      if (currentIndex < currentSection.items.length - 1) {
-        // Go to next field in the same section
-        setSelectedField(currentSection.items[currentIndex + 1].name);
-      } else {
-        // Find the next section
-        const currentSectionIndex = sections.findIndex(section => section.title === currentSection.title);
+      if (currentSection) {
+        const currentIndex = currentSection.items.findIndex(item => item.name === selectedField);
         
-        if (currentSectionIndex < sections.length - 1) {
-          const nextSection = sections[currentSectionIndex + 1];
-          setActiveSection(nextSection.title);
-          setExpandedSections(prev => ({
-            ...prev,
-            [nextSection.title]: true
-          }));
-          setSelectedField(nextSection.items[0].name);
+        if (currentIndex < currentSection.items.length - 1) {
+          // Go to next field in the same section
+          setSelectedField(currentSection.items[currentIndex + 1].name);
+        } else {
+          // Find the next section
+          const currentSectionIndex = sections.findIndex(section => section.title === currentSection.title);
+          
+          if (currentSectionIndex < sections.length - 1) {
+            let nextSection;
+            if (currentSectionIndex + 1 < sections.length) {
+              nextSection = sections[currentSectionIndex + 1];
+              setActiveSection(nextSection.title);
+              setExpandedSections(prev => ({
+                ...prev,
+                [nextSection.title]: true
+              }));
+              setSelectedField(nextSection.items[0].name);
+            } else {
+              nextSection = sections[0];
+              setActiveSection(nextSection.title);
+              setExpandedSections(prev => ({
+              ...prev,
+              [nextSection.title]: true
+            }));
+            setSelectedField(nextSection.items[0].name);
+          }
         }
       }
-    }
-  };
+    
+  };};
 
-  // Generate financial report
-  const generateReport = () => {
-    let reportText = "# Financial Consideration Report\n\n";
-    
-    sections.forEach(section => {
-      reportText += `## ${section.title}\n\n`;
-      
-      section.items.forEach(item => {
-        const value = formData[item.name] || "Not provided";
-        let displayValue = value;
-        
-        if (item.type === "currency" && value !== "Not provided") {
-          displayValue = `$${value}`;
-        } else if (item.type === "percentage" && value !== "Not provided") {
-          displayValue = `${value}%`;
-        }
-        
-        reportText += `- **${item.name}**: ${displayValue}\n`;
-      });
-      
-      reportText += "\n";
-    });
-    
-    // Add affordability analysis
-    if (formData["Monthly income"] && formData["Expected monthly housing cost"]) {
-      const income = parseFloat(formData["Monthly income"]);
-      const housingCost = parseFloat(formData["Expected monthly housing cost"]);
-      const ratio = (housingCost / income * 100).toFixed(1);
-      
-      reportText += "## Affordability Analysis\n\n";
-      reportText += `- **Housing cost to income ratio**: ${ratio}%\n`;
-      
-      if (ratio <= 28) {
-        reportText += "- **Assessment**: Your housing costs are within the recommended range (less than 28% of income).\n";
-      } else if (ratio <= 36) {
-        reportText += "- **Assessment**: Your housing costs are slightly elevated (28-36% of income). Consider your other debts and expenses carefully.\n";
-      } else {
-        reportText += "- **Assessment**: Your housing costs are high relative to your income (above 36%). This may present financial stress or difficulty qualifying for loans.\n";
-      }
-    }
-    
-    setReport(reportText);
-  };
+  const allSectionsCompleted = Object.values(sectionCompletion).every(section => section.completed);
 
   // Get the current section that contains the selected field
   const getCurrentSection = () => {
@@ -325,6 +373,24 @@ const FinancialConsideration = () => {
               )}
             </div>
           ))}
+           {/* Final Qualification Section */}
+           <div key="Final Qualification" className="section-item">
+            <div className={`section-header ${activeSection === "Final Qualification" ? 'active' : ''}`}>
+              <div className="section-circle">
+                <span className={`circle ${allSectionsCompleted ? '' : ''}`}></span>
+              </div>
+              <span className="section-title">Final Qualification</span>
+              <span className="section-status">{allSectionsCompleted ? finalQualification : ""}</span>
+            </div>
+          </div>
+        </div>
+        {/* Generate Final Report Button - Conditionally rendered */}
+        <div className="generate-final-report-container">
+          {allSectionsCompleted && (
+            <button onClick={generateFinalReport} className="generate-final-btn">
+              Generate Final Report
+            </button>
+          )}
         </div>
       </div>
       
@@ -374,16 +440,24 @@ const FinancialConsideration = () => {
               Continue <ArrowRight size={18} />
             </button>
           </div>
-          
-          <div className="button-container">
-            <button onClick={generateReport} className="generate-btn">
-              Generate Financial Report
-            </button>
+
+          {/* Generate Section Reports Buttons */}
+          <div className="section-buttons-container">
+            {sections.map(section => (
+              <div key={section.title}>
+                <button onClick={() => generateSectionReport(section.title)} className="generate-btn">
+                  Generate {section.title} Report
+                </button>
+                {reports[section.title] && <pre className="section-report-box">{reports[section.title]}</pre>}
+              </div>
+            ))}
+            {/* Final Report Display */}
+            {finalReport && <pre className="final-report-box">{finalReport}</pre>}
           </div>
+
         </div>
       </div>
     </div>
   );
 };
-
 export default FinancialConsideration;
