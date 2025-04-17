@@ -1,0 +1,2 @@
+E0417 22:34:08.051338    9101 load.go:23] Could not load config from "/home/user/towntor/dataconnect": schema is required in dataconnect.yaml at `/home/user/towntor/dataconnect/dataconnect.yaml`
+I0417 22:34:08.058838    9101 dev.go:95] Listening on address (HTTP + gRPC): 127.0.0.1:9399
