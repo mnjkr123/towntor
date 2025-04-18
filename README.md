@@ -1,3 +1,12 @@
+# To see the list of Gemini Supported model, paste the below in Windows Command Prompt
+curl -X GET "https://generativelanguage.googleapis.com/v1beta/models?key=YOUR_API_KEY"
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

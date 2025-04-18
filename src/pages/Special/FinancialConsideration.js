@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, ChevronUp, ArrowRight, HelpCircle } from 'lucide-react';
 import '../../asset/css/FinancialConsideration.css';
+import { subSectionDescriptions, sections } from '../../data/financialData';
 
 const FinancialConsideration = () => {
   const [activeSection, setActiveSection] = useState("Budget and Affordability");
@@ -13,92 +14,7 @@ const FinancialConsideration = () => {
   const [sectionCompletion, setSectionCompletion] = useState({});
   const [finalQualification, setFinalQualification] = useState("Not Qualified"); // Initial state
   const [finalReport, setFinalReport] = useState("");
-
-  // Descriptions for subsections that appear when clicked
-  const subSectionDescriptions = {
-    "Maximum budget": "Enter the highest amount you're willing to spend on your new home. Consider your savings, income, and financial goals to determine a comfortable budget.",
-    "Monthly income": "Enter your total household income after taxes. This helps determine what you can afford for monthly housing payments.",
-    "Expected monthly housing cost": "Include your expected mortgage payment, property taxes, insurance, and any HOA fees in this estimate.",
-    "Estimated moving costs": "Consider expenses for professional movers, rental trucks, packing supplies, and other relocation expenses.",
-    "Furniture & renovation expenses": "Budget for immediate furniture purchases and any renovations you plan to make after moving in.",
-    "Emergency fund amount": "Experts recommend having 3-6 months of expenses saved for emergencies, separate from your down payment.",
-    
-    "Pre-approved loan amount": "The amount your lender has pre-approved you for based on your financial situation and credit history.",
-    "Credit score": "Your current credit score affects the interest rates you qualify for. Higher scores typically result in better rates.",
-    "Interest rate offered": "The annual interest rate offered by your lender. Even small differences can significantly impact your monthly payment.",
-    "Loan term in years": "The length of your mortgage loan, typically 15 or 30 years. Shorter terms have higher payments but lower total interest.",
-    "Estimated monthly EMI": "Your estimated Equated Monthly Installment, including principal and interest payments.",
-    "Type of mortgage": "Common types include Fixed-Rate, Adjustable-Rate (ARM), FHA, VA, or USDA loans.",
-    
-    "Planned down payment": "The amount you plan to pay upfront. Larger down payments typically result in better loan terms.",
-    "Percentage of total price": "Your down payment as a percentage of the home's purchase price. 20% or more typically avoids PMI.",
-    "Estimated closing costs": "Additional fees paid at closing, typically 2-5% of the loan amount, including appraisal, title insurance, and attorney fees.",
-    "PMI (if any)": "Private Mortgage Insurance is typically required if your down payment is less than 20% of the home's value.",
-    "Assistance programs used": "Government or lender programs that might help with your down payment or closing costs.",
-    "Cash in hand for closing": "The total amount you'll need available at closing, including down payment and closing costs.",
-    
-    "Annual property tax": "The yearly amount you'll pay in property taxes, which varies by location and property value.",
-    "Monthly tax cost": "The monthly portion of your annual property tax, often included in your mortgage payment through escrow.",
-    "Tax rate (%)": "The percentage rate at which your property is taxed by local government.",
-    "Are tax increases expected?": "Information about potential property tax increases in the near future.",
-    "Reason for property tax increase": "Common reasons include reassessments, local budget changes, or new municipal projects.",
-    "Tax escrow amount": "The amount held in escrow by your lender to pay property taxes when due.",
-    
-    "Estimated annual premium": "The yearly cost of your homeowner's insurance policy.",
-    "Monthly premium cost": "The monthly portion of your annual insurance premium, often included in your mortgage payment.",
-    "Coverage types included": "The types of coverage included in your policy, such as dwelling, personal property, and liability.",
-    "Any exclusions?": "Important items or events not covered by your standard insurance policy.",
-    "Additional coverage needed": "Extra coverage you might need, such as flood insurance or coverage for high-value items.",
-    "Discounts applicable": "Potential insurance discounts for home security systems, bundling policies, etc.",
-  };
-
-  // Define sections with their respective input fields
-  const sections = [
-    {
-      title: "Budget and Affordability",
-      items: [
-        { name: "Maximum budget", type: "currency" },
-        { name: "Monthly income", type: "currency" },
-        { name: "Expected monthly housing cost", type: "currency" },
-        { name: "Estimated moving costs", type: "currency" },
-        { name: "Furniture & renovation expenses", type: "currency" },
-        { name: "Emergency fund amount", type: "currency" },
-      ],
-    },
-    {
-      title: "Loan Details",
-      items: [
-        { name: "Pre-approved loan amount", type: "currency" },
-        { name: "Credit score", type: "number" },
-        { name: "Interest rate offered", type: "percentage" },
-        { name: "Loan term in years", type: "number" },
-        { name: "Estimated monthly EMI", type: "currency" },
-        { name: "Type of mortgage", type: "text" },
-      ],
-    },
-    {
-      title: "Insurance Details",
-      items: [
-        { name: "Estimated annual premium", type: "currency" },
-        { name: "Monthly premium cost", type: "currency" },
-        { name: "Coverage types included", type: "text" },
-        { name: "Any exclusions?", type: "text" },
-        { name: "Additional coverage needed", type: "text" },
-        { name: "Discounts applicable", type: "text" },
-      ],
-    },
-    {
-      title: "Closing Details",
-      items: [
-        { name: "Planned down payment", type: "currency" },
-        { name: "Percentage of total price", type: "percentage" },
-        { name: "Estimated closing costs", type: "currency" },
-        { name: "PMI (if any)", type: "currency" },
-        { name: "Assistance programs used", type: "text" },
-        { name: "Cash in hand for closing", type: "currency" },
-      ],
-    },
-  ];
+  const apiKey = "AIzaSyAKpcR0u8CmnIKDjsoFVSNzSmmSoHz0jXU"; // Updated API key
 
   // Handle input change for any field
   const handleInputChange = (name, value) => {
@@ -196,73 +112,80 @@ const FinancialConsideration = () => {
   }, [formData]);
 
   // Determine final qualification based on reports and form data
-  const determineFinalQualification = async () => 
-    {
-    // Simulate AI call for final qualification
-    await new Promise(resolve => setTimeout(resolve, 500));
-
+  const determineFinalQualification = async () => {
     let finalReport = `# Final Qualifying Report\n\n`;
     finalReport += `This report provides a final qualification based on the data you've entered and the individual section reports.\n\n`;
     finalReport += `\n\n**Mortgage Check Context:** Real Estate Home Purchase`;
     finalReport += `\n\n**Analysis of Key Factors:**\n`;
-
+  
     let qualified = true;
     let reviewNeeded = false;
-
+  
     // Example logic - replace with actual qualification rules
     if (formData["Maximum budget"] < 100000 || formData["Credit score"] < 600) {
       qualified = false;
       reviewNeeded = true;
       finalReport += `- **Maximum Budget and/or Credit Score:** Below minimum threshold. Please review.\n`;
     } else {
-      finalReport += `- **Maximum Budget and Credit Score:** Meet minimum requirements.\n`;
-    }
-
+        finalReport += `- **Maximum Budget and Credit Score:** Meet minimum requirements.\n`;
+      }
+  
     // Set final qualification status
     let status = "Needs Review";
     if (qualified && !reviewNeeded) {
       status = "Qualified";
       finalReport += `\n\n**Final Qualification:** Qualified\n`;
     } else if (!qualified) {
-      status = "Not Qualified";
-      finalReport += `\n\n**Final Qualification:** Not Qualified\n`;
+        status = "Not Qualified";
+        finalReport += `\n\n**Final Qualification:** Not Qualified\n`;
     } else {
-      finalReport += `\n\n**Final Qualification:** Needs Review\n`;
-    }
-
+        finalReport += `\n\n**Final Qualification:** Needs Review\n`;
+      }
+  
     finalReport += `\n\nPlease note that this is a simulated report and the analysis may not reflect actual financial advice. Consult with a financial expert for personalized recommendations.`;
     finalReport += `\n\nFor further assistance, please contact our support team or schedule a consultation with one of our financial advisors.`;
-
+  
     return { status, report: finalReport };
   };
-
-  // Simulates calling an AI model and returning a report
-  const getAIReport = async (sectionName, data) => {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // Generate a generic report for simulation
-    let report = `# ${sectionName} Report\n\n`;
-    report += `This report provides an analysis based on the provided data for the "${sectionName}" section.`;
-    report += `\n\n**Mortgage Check Context:** Real Estate Home Purchase`;
-    report += `\n\n**Key Inputs:**\n`;
-
-    for (const key in data) {
-      report += `- ${key}: ${data[key]}\n`;
+  
+  const getAIReport = async (sectionName, apiKey) => {
+    const prompt = `Generate a financial report for the section "${sectionName}" in the context of a real estate home purchase. Here are the inputs:\n\n` +
+    sections.find(s => s.title === sectionName)?.items
+      .map(item => `- ${item.name}: ${formData[item.name] || "Not provided"}`).join('\n');
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:generateContent?key=${apiKey}`;
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [{ text: prompt }]
+          }
+        ]
+      })
+    };
+    try {
+      const response = await fetch(url, requestOptions);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error.message}`);
+      }
+      const data = await response.json();
+      if (data?.candidates && data?.candidates.length > 0 && data.candidates[0]?.content?.parts && data.candidates[0]?.content?.parts.length > 0 && data.candidates[0].content.parts[0]?.text) {
+        return data.candidates[0].content.parts[0].text;
+      } else {
+        return `Error: No valid response from Gemini API.`;
+      }
+    } catch (error) {
+      console.error("Error fetching AI report:", error);
+      return `Error: Could not generate report for ${sectionName}. ${error.message}`;
     }
-
-    report += `\n\n**Analysis:**\n`;
-    report += `Based on the information provided, we have conducted a detailed analysis to help you understand your financial position. This analysis considers various factors such as your budget, income, expenses, loan details, and other relevant financial data. The insights generated will assist you in making informed decisions and planning effectively for your financial goals.`;
-    report += `\n\nFurther details and specific recommendations tailored to your situation will be provided in the subsequent sections of this report.`;
-    report += `\n\nPlease note that this is a simulated report and the analysis may not reflect actual financial advice. Consult with a financial expert for personalized recommendations.`;
-    report += `\n\nFor further assistance, please contact our support team or schedule a consultation with one of our financial advisors.`;
-
-    return report;
   };
-
   // Generate report for a specific section
   const generateSectionReport = async (sectionName) => {
-    const report = await getAIReport(sectionName, formData);
+    const report = await getAIReport(sectionName, apiKey);
     setReports(prev => ({ ...prev, [sectionName]: report }));
 
   }
