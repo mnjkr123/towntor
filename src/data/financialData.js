@@ -1,6 +1,7 @@
 export const subSectionDescriptions = {
-  "Maximum budget": "Enter the highest amount you're willing to spend on your new home. Consider your savings, income, and financial goals to determine a comfortable budget.",
+  "Budget": "Enter the highest amount you're willing to spend on your new home. Consider your savings, income, and financial goals to determine a comfortable budget.",
   "Monthly income": "Enter your total household income after taxes. This helps determine what you can afford for monthly housing payments.",
+  "Down payment": "Enter the amount or percentage of the home's purchase price that you plan to pay upfront. This affects your loan amount and monthly mortgage payments.",
   "Expected monthly housing cost": "Include your expected mortgage payment, property taxes, insurance, and any HOA fees in this estimate.",
   "Estimated moving costs": "Consider expenses for professional movers, rental trucks, packing supplies, and other relocation expenses.",
   "Furniture & renovation expenses": "Budget for immediate furniture purchases and any renovations you plan to make after moving in.",
@@ -34,13 +35,31 @@ export const subSectionDescriptions = {
 export const sections = [
   {
     title: "Budget and Affordability",
-    items: [
-      { name: "Maximum budget", type: "currency" },
-      { name: "Monthly income", type: "currency" },
-      { name: "Expected monthly housing cost", type: "currency" },
-      { name: "Estimated moving costs", type: "currency" },
-      { name: "Furniture & renovation expenses", type: "currency" },
-      { name: "Emergency fund amount", type: "currency" },
+    subSections: [
+      {
+        title: "Budget",
+        items: [
+          { name: "Maximum Budget", type: "currency" },
+          { name: "Purchase Budget", type: "currency" },
+        ],
+      },
+      {
+        title: "Monthly Income & Costs",
+        items: [
+          { name: "Monthly income", type: "currency" },
+          { name: "Expected monthly housing cost", type: "currency" },
+          { name: "Estimated moving costs", type: "currency" },
+          { name: "Furniture & renovation expenses", type: "currency" },
+          { name: "Emergency fund amount", type: "currency" },
+        ],
+      },
+      {
+        title: "Down Payment",
+        items: [
+          { name: "Down payment", type: "currency" },
+          { name: "Percentage of total price", type: "percentage" },
+        ],
+      },
     ],
   },
   {

@@ -1,385 +1,323 @@
-/* FinancialConsideration.css */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
+  .financial-container {
+    display: flex;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-.financial-container {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    background: #f5f7f9;
+    border-right: 1px solid #e0e0e0;
+    overflow-y: auto;
+    z-index: 10;
+    transition: width 0.2s ease;
+  }
 
-/* Sidebar Styles */
-.sidebar {
-  width: 288px;
-  background-color: white;
-  border-right: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
+  .sidebar-resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: transparent;
+    cursor: col-resize;
+    z-index: 20;
+  }
 
-.sidebar-header {
-  background-color: #4361ee;
-  color: white;
-  padding: 20px 16px;
-  border-bottom: 1px solid #3a56d4;
-}
+  .sidebar-resizer:hover,
+  .sidebar-resizer:active {
+    background: rgba(0, 123, 255, 0.3);
+  }
 
-.sidebar-header h2 {
-  font-size: 18px;
-  font-weight: 600;
-}
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 280px;
+    transition: margin-left 0.2s ease;
+    overflow-y: auto;
+    height: 100vh;
+  }
 
-.section-list {
-  padding: 8px 0;
-}
+  .right-sidebar {
+    position: fixed;
+    right: -320px;
+    top: 0;
+    width: 320px;
+    height: 100vh;
+    background: #f5f7f9;
+    border-left: 1px solid #e0e0e0;
+    z-index: 10;
+    transition: right 0.3s ease;
+    padding: 20px;
+    overflow-y: auto;
+  }
 
-.section-item {
-  margin-bottom: 4px;
-}
+  .right-sidebar.visible {
+    right: 0;
+  }
 
-.section-header {
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-  border-radius: 4px;
-  margin: 0 4px;
-}
+  .right-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+  }
 
-.section-header:hover {
-  background-color: #f3f4f6;
-}
+  .close-sidebar-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+  }
 
-.section-header.active {
-  background-color: #f0f7ff;
-  color: #4361ee;
-}
+  .close-sidebar-btn:hover {
+    color: #f00;
+  }
 
-.section-circle {
-  margin-right: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .content-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
-.circle {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #d1d5db;
-  border-radius: 50%;
-  display: inline-block;
-}
+  .field-item {
+    position: relative;
+    padding-right: 30px;
+  }
 
-.circle.completed {
-  background-color: #10b981;
-  border-color: #10b981;
-  position: relative;
-}
+  .info-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    cursor: pointer;
+    opacity: 0.7;
+  }
 
-.circle.completed::after {
-  content: "✓";
-  position: absolute;
-  color: white;
-  font-size: 10px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+  .info-icon:hover {
+    color: #007bff;
+    opacity: 1;
+  }
 
-.section-title {
-  flex-grow: 1;
-  font-size: 14px;
-  font-weight: 500;
-}
+  .field-focus-view {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 30px;
+    margin-bottom: 20px;
+  }
 
-.section-icon {
-  color: #9ca3af;
-}
+  .field-name {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+  }
 
-.section-fields {
-  padding-left: 40px;
-  padding-right: 8px;
-}
-
-.field-item {
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #4361ee;
-  cursor: pointer;
-  border-radius: 4px;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.field-item:hover {
-  background-color: #f3f4f6;
-}
-
-.field-item.selected {
-  background-color: #edf5ff;
-  font-weight: 500;
-}
-
-.field-completed-mark {
-  color: #10b981;
-  font-weight: bold;
-}
-
-/* Final Qualification Section in Sidebar */
-.final-qualification-section {
-  margin-top: 20px;
-  padding: 16px;
-  background-color: #f0f7ff;
-  border-top: 1px solid #e5e7eb;
-}
-
-.final-qualification-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.final-qualification-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #4361ee;
-}
-
-.final-qualification-status {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-
-/* Main Content Styles */
-.main-content {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: #f9fafb;
-  overflow-y: auto; /* Make main content scrollable */
-}
-
-.header-banner {
-  background-color: #4361ee;
-  color: white;
-  padding: 12px 24px;
-  width: 100%;
-}
-
-.header-banner p {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.content-container {
-  padding: 24px;
-  max-width: 900px;
-  width: 100%;
-}
-
-.section-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.section-title-row h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.completion-status {
-  font-size: 14px;
-  color: #6b7280;
-}
-
-.progress-bar {
-  height: 6px;
-  width: 100%;
-  background-color: #e5e7eb;
-  border-radius: 3px;
-  margin-bottom: 24px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: #4361ee;
-  border-radius: 3px;
-  transition: width 0.3s ease;
-}
-
-/* Field Focus View - TurboTax Style */
-.field-focus-view {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  margin-bottom: 24px;
-}
-
-.field-name {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: #111827;
-}
-
-.field-description {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-  background-color: #f0f7ff;
-  padding: 16px;
-  border-radius: 6px;
-  border-left: 4px solid #4361ee;
-}
-
-.help-icon {
-  color: #4361ee;
-  flex-shrink: 0;
-}
-
-.field-description p {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #4b5563;
-}
-
-.input-container {
-  position: relative;
-  margin-bottom: 24px;
-}
-
-.input-container input {
-  width: 100%;
-  padding: 16px;
-  font-size: 18px;
-  border: 2px solid #d1d5db;
-  border-radius: 8px;
-  outline: none;
-  transition: border-color 0.2s ease;
-}
-
-.input-container input:focus {
-  border-color: #4361ee;
-}
-
-.input-container input::placeholder {
-  color: #9ca3af;
-}
-
-.currency-symbol {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #6b7280;
-  font-size: 18px;
-}
-
-.currency-input {
-  padding-left: 28px !important;
-}
-
-.percentage-symbol {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #6b7280;
-  font-size: 18px;
-}
-
-.next-field-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background-color: #4361ee;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.next-field-btn:hover {
-  background-color: #3a56d4;
-}
-
-.button-container {
-  margin-top: 16px;
-}
-
-.generate-btn {
-  background-color: #4361ee;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.2s ease;
-}
-
-.generate-btn:hover {
-  background-color: #3a56d4;
-}
-
-.final-report-container {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  margin-top: 20px;
-}
-
-.final-report-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.final-report-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.final-report-status {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-/* General Report Box Style */
-.report-box,
-.final-report-box {
-    white-space: pre-wrap;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+  .field-description {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f9fa;
     padding: 15px;
+    border-radius: 6px;
+    margin: 15px 0;
+  }
+
+  .help-icon {
+    color: #007bff;
+    margin-top: 3px;
+    margin-right: 5px;
+  }
+
+  .input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  .input-container input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border 0.2s ease;
+  }
+
+  .input-container input:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+
+  .currency-symbol, .percentage-symbol {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #666;
+    pointer-events: none;
+  }
+
+  .currency-symbol {
+    left: 10px;
+  }
+
+  .percentage-symbol {
+    right: 10px;
+  }
+
+  .currency-input {
+    padding-left: 30px !important;
+  }
+
+  .next-field-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    overflow-y: auto; /* Enable vertical scrolling */
-    max-height: 300px; /* Limit the height */
-}
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    gap: 8px;
+  }
+
+  .next-field-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .next-field-btn svg {
+    margin-left: 5px;
+  }
+
+  .modern-button {
+    background-color: #808080; /* Medium gray */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .modern-button:hover {
+    background-color: #555; /* Darker gray on hover */
+  }
+  
+
+  .gray-button {
+    background-color: #808080; /* Gray background */
+    color: white; /* White font color */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .gray-button:hover {
+    background-color: #555; /* Darker gray on hover */
+  }
+
+  .sidebar-button {
+    background-color: #555; /* Dark gray background */
+    color: white;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease;
+  }
+  
+  .sidebar-button:hover {
+    background-color: #777; /* Slightly lighter gray on hover */
+  }
+  .sidebar-button:active {
+    background-color: #666; /* Medium gray when clicked */
+    
+  }
+  .section-buttons-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .generate-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+  }
+
+  .generate-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .section-report-box,
+  .final-report-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background-color: #007bff;
+    transition: width 0.3s;
+    border-radius: 5px;
+  }
+
+  .section-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .completion-status {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-left: 15px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+  }
+  .section-icon {
+    margin-left: auto; /* Push to the right */
+    margin-right: 10px; /* Add some margin on the right */
+  }
+  .section-title {
+    font-weight: bold; /* Make the section title bold */
+  }
