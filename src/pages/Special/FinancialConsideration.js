@@ -20,31 +20,42 @@ const FinancialConsideration = () => {
   const [rightSidebarContent, setRightSidebarContent] = useState({ title: '', description: '' });
   const apiKey = "AIzaSyAKpcR0u8CmnIKDjsoFVSNzSmmSoHz0jXU"; // Updated API key
   const sidebarRef = useRef(null);
+  const [dragData, setDragData] = useState({ startX: 0, startWidth: 0 });
+
+
+
 
   // Start dragging the sidebar
   const startDragging = (e) => {
     e.preventDefault();
     setIsDragging(true);
-    document.addEventListener('mousemove', handleDragging);
-    document.addEventListener('mouseup', stopDragging);
+     const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+    setDragData({ startX: e.clientX, startWidth: sidebar.offsetWidth });
+     window.addEventListener('mousemove', handleDragging);    
   };
 
   // Handle dragging motion
   const handleDragging = (e) => {
     if (isDragging) {
-      const newWidth = e.clientX;
-      // Set min/max width constraints
-      if (newWidth >= 200 && newWidth <= 500) {
-        setSidebarWidth(newWidth);
+      const sidebar = sidebarRef.current;
+      if (!sidebar) return;
+      const newWidth = dragData.startWidth + (e.clientX - dragData.startX);
+      const minWidth = 200;
+      const maxWidth = 400;
+      if (newWidth >= minWidth && newWidth <= maxWidth) {
+        setSidebarWidth(newWidth)
       }
+      stopDragging();
     }
   };
-
+  useEffect(() => {
+    document.addEventListener('mouseup', stopDragging);
+  }, []);
   // Stop dragging
   const stopDragging = () => {
     setIsDragging(false);
-    document.removeEventListener('mousemove', handleDragging);
-    document.removeEventListener('mouseup', stopDragging);
+    window.removeEventListener('mousemove', handleDragging);
   };
 
   // Show info in right sidebar
@@ -71,8 +82,8 @@ const FinancialConsideration = () => {
     setExpandedSections(prev => ({
       ...prev,
       [section]: !prev[section]
-    }));    
-     setActiveSection(section);
+    }));
+    setActiveSection(section);
 
     // Find the first field of the section, considering subsections
     const currentSection = sections.find(s => s.title === section);
@@ -82,7 +93,7 @@ const FinancialConsideration = () => {
       if (currentSection.items && currentSection.items.length > 0) {
         firstField = currentSection.items[0].name;
       } else if (currentSection.subSections) {
-        for (const subSection of currentSection.subSections) {
+         for (const subSection of currentSection.subSections) {
           if (subSection.items && subSection.items.length > 0) {
             firstField = subSection.items[0].name;
             break;
@@ -115,23 +126,23 @@ const FinancialConsideration = () => {
     });
 
     if (!currentSection) return "text";
-    
+
     const currentItem = currentSection.items?.find(item => item.name === selectedField);
     if (currentItem) return currentItem.type || "text";
-    
+
     // Check in subSections if not found in main items
     if (currentSection.subSections) {
       for (const subSection of currentSection.subSections) {
         if (subSection.items) {
           const item = subSection.items.find(item => item.name === selectedField);
           if (item) return item.type || "text";
-        }
       }
     }
-    
+  }
+
     return "text";
   };
-
+  
   // Format input based on field type
   const formatInput = (value, type) => {
     if (!value) return '';
@@ -168,21 +179,20 @@ const FinancialConsideration = () => {
   // Check completion status of sections
   useEffect(() => {
     const newCompletionStatus = {};
-    
+
     sections.forEach(section => {
       let totalFields = section.items?.length || 0;
       let completedFields = 0;
-      
+
       if (section.items) {
         section.items.forEach(item => {
           if (formData[item.name] && formData[item.name].toString().trim() !== '') {
             completedFields++;
           }
         });
-      }
-      
+      }    
       if (section.subSections) {
-        section.subSections.forEach(subSection => {
+        section.subSections.forEach(subSection => {          
           if (subSection.items) {
             totalFields += subSection.items.length;
             subSection.items.forEach(item => {
@@ -192,14 +202,13 @@ const FinancialConsideration = () => {
             });
           }
         });
-      }
-      
+      }      
       newCompletionStatus[section.title] = {
         completed: completedFields === totalFields && totalFields > 0,
         progress: totalFields > 0 ? Math.round((completedFields / totalFields) * 100) : 0
       };
     });
-    
+
     setSectionCompletion(newCompletionStatus);
   }, [formData]);
 
@@ -241,10 +250,9 @@ const FinancialConsideration = () => {
   };
 
   const getAIReport = async (sectionName, apiKey) => {
-    let prompt = `Generate a financial report for the section "${sectionName}" in the context of a real estate home purchase. Here are the inputs:\n\n`;
-    
+    let prompt = `Generate a financial report for the section "${sectionName}" in the context of a real estate home purchase. Here are the inputs:\n\n`;    
     const section = sections.find(s => s.title === sectionName);
-    
+
     if (section) {
       if (section.items) {
         section.items.forEach(item => {
@@ -262,7 +270,7 @@ const FinancialConsideration = () => {
         });
       }
     }
-    
+
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-exp-03-25:generateContent?key=${apiKey}`;
     const requestOptions = {
       method: 'POST',
@@ -294,14 +302,14 @@ const FinancialConsideration = () => {
       return `Error: Could not generate report for ${sectionName}. ${error.message}`;
     }
   };
-  
+
   // Generate report for a specific section
   const generateSectionReport = async (sectionName) => {
     const report = await getAIReport(sectionName, apiKey);
     setReports(prev => ({ ...prev, [sectionName]: report }));
   };
-  
-  const generateFinalReport = async () => {
+
+    const generateFinalReport = async () => {
     const { status, report } = await determineFinalQualification();
     setFinalQualification(status);
     setFinalReport(report);
@@ -315,18 +323,18 @@ const FinancialConsideration = () => {
       if (section.items && section.items.some(item => item.name === selectedField)) {
         return true;
       }
-      
+
       // Check if the field is in any subsection
       if (section.subSections) {
-        return section.subSections.some(subSection => 
+        return section.subSections.some(subSection =>
           subSection.items && subSection.items.some(item => item.name === selectedField)
         );
       }
-      
+
       return false;
     });
 
-    if (!currentSection) {
+    if (!currentSection) {     
       console.error("Could not find section containing field:", selectedField);
       return;
     }
@@ -334,10 +342,10 @@ const FinancialConsideration = () => {
     // Check if the field is in the main items
     const isInMainItems = currentSection.items && 
                          currentSection.items.some(item => item.name === selectedField);
-    
+
     if (isInMainItems) {
       const currentIndex = currentSection.items.findIndex(item => item.name === selectedField);
-      
+
       // If not the last item in main items, go to next item
       if (currentIndex < currentSection.items.length - 1) {
         setSelectedField(currentSection.items[currentIndex + 1].name);
@@ -354,7 +362,7 @@ const FinancialConsideration = () => {
           return;
         }
       }
-      
+
       // Otherwise, go to the next section
       goToNextSection(currentSection);
       return;
@@ -362,19 +370,19 @@ const FinancialConsideration = () => {
     
     // If the field is in a subsection
     if (currentSection.subSections) {
-      // Find which subsection contains the field
+      // Find which subsection contains the field    
       const subSectionWithField = currentSection.subSections.find(subSection => 
         subSection.items && subSection.items.some(item => item.name === selectedField)
       );
-      
+
       if (subSectionWithField) {
         const currentSubIndex = subSectionWithField.items.findIndex(item => item.name === selectedField);
-        
+
         // If not the last item in this subsection, go to next item
         if (currentSubIndex < subSectionWithField.items.length - 1) {
           setSelectedField(subSectionWithField.items[currentSubIndex + 1].name);
           showInfoInRightSidebar('Field Info', subSectionWithField.items[currentSubIndex + 1].name);
-          return;
+           return;
         }
         
         // Find current subsection index
@@ -391,10 +399,10 @@ const FinancialConsideration = () => {
             return;
           }
         }
-        
+
         // Otherwise, go to the next section
         goToNextSection(currentSection);
-        return;
+         return;
       }
     }
   };
@@ -408,7 +416,7 @@ const FinancialConsideration = () => {
       const nextSection = sections[currentSectionIndex + 1];
       setActiveSection(nextSection.title);
       setExpandedSections(prev => ({
-        ...prev,
+         ...prev,
         [nextSection.title]: true
       }));
       
@@ -440,11 +448,11 @@ const FinancialConsideration = () => {
       if (section.items && section.items.some(item => item.name === selectedField)) {
         return true;
       }
-      if (section.subSections) {
+        if (section.subSections) {
         return section.subSections.some(subSection => 
           subSection.items && subSection.items.some(item => item.name === selectedField)
         );
-      }
+      }     
       return false;
     });
     
@@ -474,19 +482,18 @@ const FinancialConsideration = () => {
             <div key={section.title} className="section-item">
               <div 
                 className={`section-header ${activeSection === section.title ? 'active' : ''}`}
-                onClick={() => toggleSection(section.title)}
-                
+                onClick={() => toggleSection(section.title)}                
               >
                 <div className="section-circle">
                   {sectionCompletion[section.title]?.completed ? (
                     <span className="circle completed"></span>
                   ) : (
-                    <span className="circle"></span>
-                    
-                    
+                    <span className="circle"></span>                    
                   )}
                 </div>
-                <span className="section-title">{section.title}</span>
+                <span className="section-title">{section.title}</span>               
+                  
+                
                 <span className="section-icon">
                   {expandedSections[section.title] ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </span>
@@ -502,11 +509,11 @@ const FinancialConsideration = () => {
                       onClick={() => selectField(item.name)}
                     >
                       <div className={`sidebar-button ${section.items.length > 0 && index === 0 ? "" : "child-button"}`}>
-                      <div className="modern-button">{item.name}</div>
+                       <div className="modern-button">{item.name}</div>
                        {formData[item.name] &&
                         formData[item.name].toString().trim() !== "" && (
                           <span className="field-completed-mark">✓</span>
-                        )}
+                        )}                       
                        <Info 
                          size={14} 
                          className="info-icon" 
@@ -532,11 +539,11 @@ const FinancialConsideration = () => {
                           onClick={() => selectField(item.name)}                          
                         >
                           <div className="sidebar-button child-button">
-                           <div className="modern-button">{item.name}</div> 
+                            <div className="modern-button">{item.name}</div>
                           {formData[item.name] && formData[item.name].toString().trim() !== '' && (
                             <span className="field-completed-mark">✓</span>
-                          )}                          
-                          <Info 
+                          )}
+                          <Info
                             size={14} 
                             className="info-icon" 
                             onClick={(e) => {
@@ -557,10 +564,10 @@ const FinancialConsideration = () => {
            <div key="Final Qualification" className={`section-item`}>
             <div className={`section-header ${activeSection === "Final Qualification" ? 'active' : ''} modern-button`} onClick={() => toggleSection("Final Qualification")}>
               <div className="section-circle">
-                <span className={`circle ${allSectionsCompleted ? '' : ''}`}></span>
+               <span className={`circle ${allSectionsCompleted ? '' : ''}`}></span>               
               </div>
-              <span className="section-title">Final Qualification</span>                
-               <span className="section-icon" style={{marginLeft:"10px"}} ></span>
+              <span className="section-title">Final Qualification</span>                 
+              <span className="section-icon" style={{marginLeft:"10px"}} ></span>
               <span className="section-status">{allSectionsCompleted ? finalQualification : ""}</span>
             </div>
           </div>
@@ -577,6 +584,7 @@ const FinancialConsideration = () => {
         
         {/* Draggable handle */}
         <div 
+         
           className="sidebar-resizer"
           onMouseDown={startDragging}
         ></div>
@@ -661,3 +669,4 @@ const FinancialConsideration = () => {
   );
 };
 export default FinancialConsideration;
+
