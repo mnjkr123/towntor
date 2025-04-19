@@ -14,11 +14,12 @@ const FinancialConsideration = () => {
   const [sectionCompletion, setSectionCompletion] = useState({});
   const [finalQualification, setFinalQualification] = useState("Not Qualified");
   const [finalReport, setFinalReport] = useState("");
-  const [sidebarWidth, setSidebarWidth] = useState(280); // Default width
+  const [sidebarWidth, setSidebarWidth] = useState(360); // Default width
   const [isDragging, setIsDragging] = useState(false);
   const [rightSidebarVisible, setRightSidebarVisible] = useState(false);
   const [rightSidebarContent, setRightSidebarContent] = useState({ title: '', description: '' });
   const apiKey = "AIzaSyAKpcR0u8CmnIKDjsoFVSNzSmmSoHz0jXU"; // Updated API key
+  const [isReportLoading, setIsReportLoading] = useState(false);
   const sidebarRef = useRef(null);
   const [dragData, setDragData] = useState({ startX: 0, startWidth: 0 });
   // Handle dragging motion
@@ -27,8 +28,8 @@ const FinancialConsideration = () => {
       const sidebar = sidebarRef.current;
       if (!sidebar) return;
       const newWidth = dragData.startWidth + (e.clientX - dragData.startX);
-      const minWidth = 200;
-      const maxWidth = 400;
+      const minWidth = 300;
+      const maxWidth = 500;
       if (newWidth >= minWidth && newWidth <= maxWidth) {
         setSidebarWidth(newWidth);
       }
@@ -306,7 +307,11 @@ const FinancialConsideration = () => {
 
   // Generate report for a specific section
   const generateSectionReport = async (sectionName) => {
+    setIsReportLoading(true);
     const report = await getAIReport(sectionName, apiKey);
+    setIsReportLoading(false);
+
+    
     setReports(prev => ({ ...prev, [sectionName]: report }));
   };
 
@@ -585,9 +590,9 @@ const FinancialConsideration = () => {
       </div>
       
       {/* Main content */}
-      <div className="main-content" style={{ marginLeft: `${sidebarWidth}px` }}>
-        <div className="header-banner">
-          <p>Complete each section to generate your financial readiness report</p>
+      <div className="main-content" >
+      <div className="header-banner">
+          <h6>Complete each section to generate your financial readiness report</h6>
         </div>
         
         <div className="content-container">
@@ -635,7 +640,15 @@ const FinancialConsideration = () => {
           <div className="section-buttons-container">
             {sections.map(section => (
               <div key={section.title}>
-                <button onClick={() => generateSectionReport(section.title)} className="generate-btn">
+                <button 
+                onClick={() => generateSectionReport(section.title)} 
+                className="generate-btn"
+                disabled={isReportLoading}
+                 >
+                  {isReportLoading && (
+                  <span className="loading-spinner"></span>
+                )}
+                
                   Generate {section.title} Report
                 </button>                
                 {reports[section.title] && <pre className="section-report-box">{reports[section.title]}</pre>}
