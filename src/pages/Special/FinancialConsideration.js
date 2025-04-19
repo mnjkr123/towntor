@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronDown, ChevronUp, ArrowRight, HelpCircle, Info, X } from 'lucide-react';
 import '../../asset/css/FinancialConsideration.css';
 import { subSectionDescriptions, sections } from '../../data/financialData';
@@ -21,20 +21,6 @@ const FinancialConsideration = () => {
   const apiKey = "AIzaSyAKpcR0u8CmnIKDjsoFVSNzSmmSoHz0jXU"; // Updated API key
   const sidebarRef = useRef(null);
   const [dragData, setDragData] = useState({ startX: 0, startWidth: 0 });
-
-
-
-
-  // Start dragging the sidebar
-  const startDragging = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-     const sidebar = sidebarRef.current;
-    if (!sidebar) return;
-    setDragData({ startX: e.clientX, startWidth: sidebar.offsetWidth });
-     window.addEventListener('mousemove', handleDragging);    
-  };
-
   // Handle dragging motion
   const handleDragging = (e) => {
     if (isDragging) {
@@ -44,19 +30,34 @@ const FinancialConsideration = () => {
       const minWidth = 200;
       const maxWidth = 400;
       if (newWidth >= minWidth && newWidth <= maxWidth) {
-        setSidebarWidth(newWidth)
+        setSidebarWidth(newWidth);
       }
-      stopDragging();
     }
+  };
+  const stopDragging = useCallback(() => {
+    setIsDragging(false);
+    window.removeEventListener('mousemove', handleDragging);
+    window.removeEventListener('mouseup', stopDragging);
+  }, [handleDragging]);
+  // Start dragging the sidebar
+  const startDragging = (e) => {
+    e.preventDefault();
+    const sidebar = sidebarRef.current;   
+    if (!sidebar) return;    
+    setIsDragging(true);
+    setDragData({ startX: e.clientX, startWidth: sidebar.offsetWidth });
+    window.addEventListener('mousemove', handleDragging);
   };
   useEffect(() => {
     document.addEventListener('mouseup', stopDragging);
-  }, []);
-  // Stop dragging
-  const stopDragging = () => {
-    setIsDragging(false);
-    window.removeEventListener('mousemove', handleDragging);
-  };
+     return () => {
+        document.removeEventListener('mouseup', stopDragging);
+    }
+  }, [stopDragging,dragData]);
+
+ 
+
+ 
 
   // Show info in right sidebar
   const showInfoInRightSidebar = (title, fieldName) => {
@@ -92,13 +93,13 @@ const FinancialConsideration = () => {
     if (currentSection) {
       if (currentSection.items && currentSection.items.length > 0) {
         firstField = currentSection.items[0].name;
-      } else if (currentSection.subSections) {
-         for (const subSection of currentSection.subSections) {
-          if (subSection.items && subSection.items.length > 0) {
-            firstField = subSection.items[0].name;
-            break;
-          }
-        }
+      } else if (currentSection.subSections){
+                for (const subSection of currentSection.subSections) {
+                    if (subSection.items && subSection.items.length > 0) {
+                        firstField = subSection.items[0].name;
+                        break;
+                    }
+                }
       }
       if (firstField) setSelectedField(firstField);
     }
@@ -131,12 +132,12 @@ const FinancialConsideration = () => {
     if (currentItem) return currentItem.type || "text";
 
     // Check in subSections if not found in main items
-    if (currentSection.subSections) {
-      for (const subSection of currentSection.subSections) {
-        if (subSection.items) {
-          const item = subSection.items.find(item => item.name === selectedField);
-          if (item) return item.type || "text";
-      }
+    if (currentSection.subSections) {    
+            for (const subSection of currentSection.subSections) {
+                if (subSection.items) {
+                    const item = subSection.items.find(item => item.name === selectedField);
+                    if (item) return item.type || "text";
+                }
     }
   }
 
@@ -185,13 +186,13 @@ const FinancialConsideration = () => {
       let completedFields = 0;
 
       if (section.items) {
-        section.items.forEach(item => {
-          if (formData[item.name] && formData[item.name].toString().trim() !== '') {
-            completedFields++;
-          }
-        });
-      }    
-      if (section.subSections) {
+                section.items.forEach(item => {
+                    if (formData[item.name] && formData[item.name].toString().trim() !== '') {
+                        completedFields++;
+                    }
+                });
+            }
+      if (section.subSections) {        
         section.subSections.forEach(subSection => {          
           if (subSection.items) {
             totalFields += subSection.items.length;
@@ -253,13 +254,13 @@ const FinancialConsideration = () => {
     let prompt = `Generate a financial report for the section "${sectionName}" in the context of a real estate home purchase. Here are the inputs:\n\n`;    
     const section = sections.find(s => s.title === sectionName);
 
-    if (section) {
-      if (section.items) {
-        section.items.forEach(item => {
-          prompt += `- ${item.name}: ${formData[item.name] || "Not provided"}\n`;
-        });
-      }
-      
+    if (section) {    
+            if (section.items) {
+                section.items.forEach(item => {
+                    prompt += `- ${item.name}: ${formData[item.name] || "Not provided"}\n`;
+                });
+            }
+
       if (section.subSections) {
         section.subSections.forEach(subSection => {
           if (subSection.items) {
@@ -309,19 +310,19 @@ const FinancialConsideration = () => {
     setReports(prev => ({ ...prev, [sectionName]: report }));
   };
 
-    const generateFinalReport = async () => {
+  const generateFinalReport = async () => {
     const { status, report } = await determineFinalQualification();
     setFinalQualification(status);
     setFinalReport(report);
   };
 
   // Navigate to next field in the section
-  const goToNextField = () => {
+  const goToNextField = () => {    
     // Find the section that contains the currently selected field
     const currentSection = sections.find(section => {
       // Check if the field is in the main items array
       if (section.items && section.items.some(item => item.name === selectedField)) {
-        return true;
+        return true
       }
 
       // Check if the field is in any subsection
@@ -331,9 +332,11 @@ const FinancialConsideration = () => {
         );
       }
 
-      return false;
+      return false;      
     });
+    
 
+       
     if (!currentSection) {     
       console.error("Could not find section containing field:", selectedField);
       return;
@@ -350,7 +353,7 @@ const FinancialConsideration = () => {
       if (currentIndex < currentSection.items.length - 1) {
         setSelectedField(currentSection.items[currentIndex + 1].name);
         showInfoInRightSidebar('Field Info', currentSection.items[currentIndex + 1].name);
-        return;
+        return
       }
       
       // If there are subsections, go to the first item of the first subsection
@@ -359,12 +362,11 @@ const FinancialConsideration = () => {
         if (firstSubSection.items && firstSubSection.items.length > 0) {
           setSelectedField(firstSubSection.items[0].name);
           showInfoInRightSidebar('Field Info', firstSubSection.items[0].name);
-          return;
+          return
         }
       }
-
       // Otherwise, go to the next section
-      goToNextSection(currentSection);
+       goToNextSection(currentSection);
       return;
     }
     
@@ -382,7 +384,7 @@ const FinancialConsideration = () => {
         if (currentSubIndex < subSectionWithField.items.length - 1) {
           setSelectedField(subSectionWithField.items[currentSubIndex + 1].name);
           showInfoInRightSidebar('Field Info', subSectionWithField.items[currentSubIndex + 1].name);
-           return;
+          return
         }
         
         // Find current subsection index
@@ -396,13 +398,12 @@ const FinancialConsideration = () => {
           if (nextSubSection.items && nextSubSection.items.length > 0) {
             setSelectedField(nextSubSection.items[0].name);
             showInfoInRightSidebar('Field Info', nextSubSection.items[0].name);
-            return;
+             return;
           }
         }
-
         // Otherwise, go to the next section
-        goToNextSection(currentSection);
-         return;
+         goToNextSection(currentSection);
+        return
       }
     }
   };
@@ -413,7 +414,7 @@ const FinancialConsideration = () => {
     
     // If not the last section, go to the first item of next section
     if (currentSectionIndex < sections.length - 1) {
-      const nextSection = sections[currentSectionIndex + 1];
+      const nextSection = sections[currentSectionIndex + 1];      
       setActiveSection(nextSection.title);
       setExpandedSections(prev => ({
          ...prev,
@@ -434,7 +435,7 @@ const FinancialConsideration = () => {
       }));
       
       if (firstSection.items && firstSection.items.length > 0) {
-        setSelectedField(firstSection.items[0].name);
+        setSelectedField(firstSection.items[0].name);    
         showInfoInRightSidebar('Field Info', firstSection.items[0].name);
       }
     }
@@ -445,12 +446,12 @@ const FinancialConsideration = () => {
   // Get the current section that contains the selected field
   const getCurrentSection = () => {
     const section = sections.find(section => {
-      if (section.items && section.items.some(item => item.name === selectedField)) {
-        return true;
-      }
-        if (section.subSections) {
+            if (section.items && section.items.some(item => item.name === selectedField)) {
+                return true;
+            }
+            if (section.subSections) {
         return section.subSections.some(subSection => 
-          subSection.items && subSection.items.some(item => item.name === selectedField)
+                    subSection.items && subSection.items.some(item => item.name === selectedField)
         );
       }     
       return false;
@@ -465,9 +466,7 @@ const FinancialConsideration = () => {
     return sectionCompletion[sectionTitle]?.progress || 0;
   };
 
-  return (
-    <div className="financial-container">
-      {/* Left sidebar with draggable handle */}
+  return ( <div className="financial-container"> {/* Left sidebar with draggable handle */} 
       <div 
         className="sidebar" 
         ref={sidebarRef}
@@ -509,10 +508,8 @@ const FinancialConsideration = () => {
                       onClick={() => selectField(item.name)}
                     >
                       <div className={`sidebar-button ${section.items.length > 0 && index === 0 ? "" : "child-button"}`}>
-                       <div className="modern-button">{item.name}</div>
-                       {formData[item.name] &&
-                        formData[item.name].toString().trim() !== "" && (
-                          <span className="field-completed-mark">✓</span>
+                       <div className="modern-button">{item.name}</div>                     
+                         {formData[item.name] && formData[item.name].toString().trim() !== "" && (<span className="field-completed-mark">✓</span>
                         )}                       
                        <Info 
                          size={14} 
@@ -529,7 +526,7 @@ const FinancialConsideration = () => {
                      <React.Fragment
                         key={subSection.title || subSection.name}
                       >
-                        <h6 className="text-primary mt-4">
+                        <h6 className="text-primary mt-4 modern-button">
                           {subSection.title}
                         </h6>
                         {subSection.items && subSection.items.map(item => (
@@ -540,9 +537,7 @@ const FinancialConsideration = () => {
                         >
                           <div className="sidebar-button child-button">
                             <div className="modern-button">{item.name}</div>
-                          {formData[item.name] && formData[item.name].toString().trim() !== '' && (
-                            <span className="field-completed-mark">✓</span>
-                          )}
+                          {formData[item.name] && formData[item.name].toString().trim() !== '' && (<span className="field-completed-mark">✓</span>)}
                           <Info
                             size={14} 
                             className="info-icon" 
@@ -584,8 +579,7 @@ const FinancialConsideration = () => {
         
         {/* Draggable handle */}
         <div 
-         
-          className="sidebar-resizer"
+         className="sidebar-resizer"
           onMouseDown={startDragging}
         ></div>
       </div>
@@ -664,9 +658,8 @@ const FinancialConsideration = () => {
         <div className="right-sidebar-content">
           <p>{rightSidebarContent.description}</p>
         </div>
-      </div>
-    </div>
-  );
+      </div> 
+      </div>)
 };
-export default FinancialConsideration;
 
+export default FinancialConsideration;

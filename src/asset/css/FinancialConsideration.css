@@ -321,3 +321,11 @@
   .section-title {
     font-weight: bold; /* Make the section title bold */
   }
+  .text-primary {
+    font-weight: bold;
+    color: #000;
+  }
+  .text-primary.modern-button {
+    color: #000; /* Black font color for sub-section headers */
+  }
+

@@ -88,7 +88,6 @@ export const sections = [
     title: "Closing Details",
     items: [
       { name: "Planned down payment", type: "currency" },
-      { name: "Percentage of total price", type: "percentage" },
       { name: "Estimated closing costs", type: "currency" },
       { name: "PMI (if any)", type: "currency" },
       { name: "Assistance programs used", type: "text" },
